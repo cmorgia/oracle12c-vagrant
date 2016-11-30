@@ -5,31 +5,47 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  # copied directly from vagrant init chef/centos-6.5
-  config.vm.box = "bento/centos-7.2"
-  
-  config.vm.box_check_update = false
-  config.vbguest.auto_update = true
-  
   # workaround the vagrant 1.8.5 bug
   config.ssh.insert_key = false
 
-  # change memory size
-  config.vm.provider "virtualbox" do |v|
-    v.memory = 4000
-    v.name = "oracle12c-vagrant"
-    v.customize ["modifyvm", :id, "--cableconnected1", "on"]
-  end
+  config.vm.define 'ansible-vm' do |cfg|
+    cfg.vm.box = "bento/centos-7.2"
+    cfg.vm.box_check_update = false
+    cfg.vbguest.auto_update = true
+    cfg.vm.synced_folder '.', '/vagrant'
+    cfg.vm.synced_folder '../files', '/files'
+    
+    cfg.vm.network 'private_network', ip: '192.168.33.101'
+  
+    # change memory size
+    cfg.vm.provider "virtualbox" do |v|
+      v.memory = 8192
+      v.cpus = 2
+      v.name = "ansible-vm"
+      v.customize ["modifyvm", :id, "--cableconnected1", "on"]
+    end
 
-  # Oracle port forwarding
-  config.vm.network "forwarded_port", guest: 1521, host: 1521
+    # Oracle port forwarding
+    cfg.vm.network "forwarded_port", guest: 1521, host: 1521
+    cfg.vm.network "forwarded_port", guest: 7001, host: 7001
+    cfg.vm.network "forwarded_port", guest: 8000, host: 8000
+    cfg.vm.network "forwarded_port", guest: 8101, host: 8101
+    cfg.vm.network "forwarded_port", guest: 5556, host: 5556
 
-  # Provision everything on the first run
-  config.vm.provision "shell", path: "scripts/install.sh"
+    # Provision everything on the first run
+    cfg.vm.provision "shell", path: "scripts/install.sh"
 
-  # if Vagrant.has_plugin?("vagrant-proxyconf")
-  #   config.proxy.http     = "http://proxy.example.com/"
-  #   config.proxy.https    = "http://proxy.example.com/"
-  #   config.proxy.no_proxy = "localhost,127.0.0.1"
-  # end
+    cfg.vm.provision 'ansible' do |ansible|
+        ansible.playbook = 'provision.yml'
+        ansible.inventory_path = 'roles/ansible-osb/vagrant-inventory.ini'
+        ansible.limit = 'ansible-vm'
+        ansible.tags = 'install-java,wls-plain-install,osb-create-db-schemas,osb-install-and-init'
+        ansible.verbose = 'v'
+      end
+    end
+    #if Vagrant.has_plugin?("vagrant-proxyconf")
+    #  config.proxy.http     = "http://proxy.who.int:3128"
+    #  config.proxy.https    = "http://proxy.who.int:3128"
+    #  config.proxy.no_proxy = "localhost,127.0.0.1"
+    #end
 end

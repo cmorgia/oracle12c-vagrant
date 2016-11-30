@@ -4,6 +4,7 @@
 # then you will also need to update this script
 # Note also that the VB Guest additions will be automatically installed on the NEXT vagrant up
 
+alias curl="curl --retry 10 "
 
 echo 'INSTALLER: Starting up'
 
