@@ -7,3 +7,6 @@
 [submodule "roles/ansible-osb"]
 	path = roles/ansible-osb
 	url = https://cmorgia@github.com/cmorgia/ansible-osb.git
+[submodule "roles/ansible-oac"]
+	path = roles/ansible-oac
+	url = https://github.com/cmorgia/ansible-oac.git

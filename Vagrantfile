@@ -41,11 +41,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ansible.limit = 'ansible-vm'
         ansible.tags = 'install-java,wls-plain-install,osb-create-db-schemas,osb-install-and-init'
         ansible.verbose = 'v'
-      end
     end
-    #if Vagrant.has_plugin?("vagrant-proxyconf")
-    #  config.proxy.http     = "http://proxy.who.int:3128"
-    #  config.proxy.https    = "http://proxy.who.int:3128"
-    #  config.proxy.no_proxy = "localhost,127.0.0.1"
-    #end
+    cfg.vm.provision 'ansible' do |ansible|
+        ansible.playbook = 'provision1213.yml'
+        ansible.inventory_path = 'roles/ansible-osb/vagrant-inventory.ini'
+        ansible.limit = 'ansible-vm'
+        ansible.tags = 'wls-plain-install'
+        ansible.verbose = 'v'
+    end
+
+  end
+  #if Vagrant.has_plugin?("vagrant-proxyconf")
+  #  config.proxy.http     = "http://proxy.who.int:3128"
+  #  config.proxy.https    = "http://proxy.who.int:3128"
+  #  config.proxy.no_proxy = "localhost,127.0.0.1"
+  #end
 end
