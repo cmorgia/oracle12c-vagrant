@@ -24,3 +24,12 @@
       oracle_db_password: 'password'
       osb_admin_server_listen_address: '192.168.33.101'
       osb_managed_server_listen_address: '192.168.33.101'
+
+    - role: ansible-oag
+      oag_prefix: "{{ oracle_base_dir }}/product/oag"
+      oag_username: 'admin'
+      oag_password: 'password'
+      oag_hostname: '127.0.0.1'
+      oag_port: '8090'
+      oag_external_port: '8080'
+      oag_local_mgmt_port: '8085'

@@ -10,3 +10,6 @@
 [submodule "roles/ansible-oac"]
 	path = roles/ansible-oac
 	url = https://github.com/cmorgia/ansible-oac.git
+[submodule "roles/ansible-oag"]
+	path = roles/ansible-oag
+	url = /Users/claudiomorgia/devel/oracle12c-vagrant/roles/ansible-oag
