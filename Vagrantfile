@@ -40,7 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #     ansible.playbook = 'provision.yml'
     #     ansible.inventory_path = 'roles/ansible-osb/vagrant-inventory.ini'
     #     ansible.limit = 'ansible-vm'
-    #     ansible.tags = 'install-java,wls-plain-install,osb-create-db-schemas,osb-install-and-init'
+    #     ansible.tags = 'install-java,wls-plain-install,osb-create-db-schemas,osb-install-and-init,osb-import-project'
     #     ansible.verbose = 'v'
     # end
     # cfg.vm.provision 'ansible' do |ansible|
@@ -54,7 +54,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ansible.playbook = 'provisiontest.yml'
         ansible.inventory_path = 'roles/ansible-osb/vagrant-inventory.ini'
         ansible.limit = 'ansible-vm'
-        ansible.tags = 'oag-install,oag-start'
+        ansible.tags = 'osb-import-project'
         ansible.verbose = 'v'
     end
 
