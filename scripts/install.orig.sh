@@ -18,16 +18,18 @@ echo "/swapfile swap swap defaults 0 0" >> /etc/fstab
 
 echo 'INSTALLER: Expanded swap'
 
-echo 'INSTALLER: Now running Oracle Linux 7.3'
+# convert into Oracle Linux 7
+curl -O https://linux.oracle.com/switch/centos2ol.sh
+sh centos2ol.sh
+rm /home/vagrant/centos2ol
+
+echo 'INSTALLER: Now running Oracle Linux 6'
 
 # install required libraries
 yum install -y MAKEDEV
 yum install -y nano
 yum install -y libaio
 yum install -y libaio-devel
-yum install -y rng-tools
-
-service rngd start
 
 # get up to date
 yum upgrade -y

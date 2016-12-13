@@ -9,7 +9,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.insert_key = false
 
   config.vm.define 'ansible-vm' do |cfg|
-    cfg.vm.box = "bento/centos-7.2"
+    cfg.vm.box = "bento/oracle-7.3"
     cfg.vm.box_check_update = false
     cfg.vbguest.auto_update = true
     cfg.vm.synced_folder '.', '/vagrant'
@@ -36,27 +36,27 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Provision everything on the first run
     cfg.vm.provision "shell", path: "scripts/install.sh"
 
-    # cfg.vm.provision 'ansible' do |ansible|
-    #     ansible.playbook = 'provision.yml'
-    #     ansible.inventory_path = 'roles/ansible-osb/vagrant-inventory.ini'
-    #     ansible.limit = 'ansible-vm'
-    #     ansible.tags = 'install-java,wls-plain-install,osb-create-db-schemas,osb-install-and-init,osb-import-project'
-    #     ansible.verbose = 'v'
-    # end
-    # cfg.vm.provision 'ansible' do |ansible|
-    #     ansible.playbook = 'provision1213.yml'
-    #     ansible.inventory_path = 'roles/ansible-osb/vagrant-inventory.ini'
-    #     ansible.limit = 'ansible-vm'
-    #     ansible.tags = 'wls-plain-install,oac-plain-install,oac-patch,oac-create-db-schemas,oac-configure,oac-start,oag-install'
-    #     ansible.verbose = 'v'
-    # end
     cfg.vm.provision 'ansible' do |ansible|
-        ansible.playbook = 'provisiontest.yml'
+        ansible.playbook = 'provision.yml'
         ansible.inventory_path = 'roles/ansible-osb/vagrant-inventory.ini'
         ansible.limit = 'ansible-vm'
-        ansible.tags = 'osb-import-project'
+        ansible.tags = 'install-java,wls-plain-install,osb-create-db-schemas,osb-install-and-init,osb-import-project,oag-install'
         ansible.verbose = 'v'
     end
+    cfg.vm.provision 'ansible' do |ansible|
+        ansible.playbook = 'provision1213.yml'
+        ansible.inventory_path = 'roles/ansible-osb/vagrant-inventory.ini'
+        ansible.limit = 'ansible-vm'
+        ansible.tags = 'wls-plain-install,oac-plain-install,oac-patch,oac-create-db-schemas,oac-configure,oac-start'
+        ansible.verbose = 'v'
+    end
+    # cfg.vm.provision 'ansible' do |ansible|
+    #     ansible.playbook = 'provisiontest.yml'
+    #     ansible.inventory_path = 'roles/ansible-osb/vagrant-inventory.ini'
+    #     ansible.limit = 'ansible-vm'
+    #     ansible.tags = 'osb-import-project'
+    #     ansible.verbose = 'v'
+    # end
 
   end
   #if Vagrant.has_plugin?("vagrant-proxyconf")
