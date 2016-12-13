@@ -28,10 +28,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Oracle port forwarding
     cfg.vm.network "forwarded_port", guest: 1521, host: 1521
+    cfg.vm.network "forwarded_port", guest: 5556, host: 5556
+    cfg.vm.network "forwarded_port", guest: 5557, host: 5557
     cfg.vm.network "forwarded_port", guest: 7001, host: 7001
+    cfg.vm.network "forwarded_port", guest: 7002, host: 7002
     cfg.vm.network "forwarded_port", guest: 8000, host: 8000
     cfg.vm.network "forwarded_port", guest: 8101, host: 8101
-    cfg.vm.network "forwarded_port", guest: 5556, host: 5556
+    cfg.vm.network "forwarded_port", guest: 8090, host: 8090
+    cfg.vm.network "forwarded_port", guest: 8112, host: 8112
 
     # Provision everything on the first run
     cfg.vm.provision "shell", path: "scripts/install.sh"
