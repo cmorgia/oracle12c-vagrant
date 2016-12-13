@@ -19,11 +19,11 @@
 
     - role: ansible-osb
       osb_jar_path: '/files/fmw_12.2.1.2.0_osb.jar'
-      oracle_db_address: '192.168.33.101'
+      oracle_db_address: '127.0.0.1'
       oracle_db_sid: 'orcl'
       oracle_db_password: 'password'
-      osb_admin_server_listen_address: '192.168.33.101'
-      osb_managed_server_listen_address: '192.168.33.101'
+      osb_admin_server_listen_address: '127.0.0.1'
+      osb_managed_server_listen_address: '127.0.0.1'
       osb_sbconfig_jar_file: 'sbconfig.jar'
       osb_sbconfig_customization_file: 'ALSBCustomizationFile.xml'
       osb_sbconfig_project: 'default'
