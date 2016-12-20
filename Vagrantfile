@@ -5,15 +5,17 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  # workaround the vagrant 1.8.5 bug
-  config.ssh.insert_key = false
-
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+   config.proxy.http     = "http://proxy.who.int:3128"
+   config.proxy.https    = "http://proxy.who.int:3128"
+   config.proxy.no_proxy = "localhost,127.0.0.1"
+  end
+  
   config.vm.define 'ansible-vm' do |cfg|
     cfg.vm.box = "bento/oracle-7.3"
     cfg.vm.box_check_update = false
     cfg.vbguest.auto_update = true
-    cfg.vm.synced_folder '.', '/vagrant'
-    cfg.vm.synced_folder 'files', '/files'
+    cfg.vm.synced_folder '.', '/vagrant', type: "rsync", rsync__exclude: ['database','files','.vagrant']
     
     # change memory size
     cfg.vm.provider "virtualbox" do |v|
@@ -21,6 +23,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.cpus = 2
       v.name = "ansible-vm"
       v.customize ["modifyvm", :id, "--cableconnected1", "on"]
+    end
+
+    config.vm.provider :aws do |aws, override|
+      aws.access_key_id = "AKIAI7TNJ2QRG6RYVLQA"
+      aws.secret_access_key = "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"
+      aws.keypair_name = "awswho"
+
+      aws.ami = "ami-02ace471"
+      aws.region = "eu-west-1"
+      aws.security_groups = "default"
+      aws.block_device_mapping = [
+        { 'DeviceName' => '/dev/sda1', 'Ebs.VolumeSize' => 50 },
+        { 'DeviceName' => '/dev/sdf', 'Ebs.SnapshotId' => 'snap-0f0e5e9d19aa81023'}
+      ]
+      aws.user_data = "#cloud-config\nmounts:\n - [ /dev/xvdf1, /vagrant ]\n"
+      aws.elastic_ip = "52.19.26.107"
+      override.ssh.username = "ec2-user"
+      override.ssh.private_key_path = "/Users/claudiomorgia/Dropbox/aws/awswho.pem"
+      override.vm.box = "dummy"
     end
 
     cfg.vm.network 'private_network', ip: '192.168.33.101'
@@ -63,9 +84,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # end
 
   end
-  #if Vagrant.has_plugin?("vagrant-proxyconf")
-  #  config.proxy.http     = "http://proxy.who.int:3128"
-  #  config.proxy.https    = "http://proxy.who.int:3128"
-  #  config.proxy.no_proxy = "localhost,127.0.0.1"
-  #end
 end
