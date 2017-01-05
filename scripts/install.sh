@@ -10,7 +10,7 @@ echo 'INSTALLER: Starting up'
 
 # add a new swapfile of 3G and attach it
 # total swap approx 4G
-dd if=/dev/zero of=/swapfile bs=1024 count=3072000
+dd if=/dev/zero of=/swapfile bs=8192 count=384000
 chmod 600 /swapfile
 mkswap /swapfile
 swapon /swapfile
@@ -48,7 +48,7 @@ echo 'INSTALLER: Oracle preinstall complete'
 
 # create directories
 mkdir /opt/oracle /opt/oraInventory /opt/datafile
-chown oracle:oinstall -R /opt
+chown oracle:oinstall -R /opt/*
 
 echo 'INSTALLER: Oracle directories created'
 
