@@ -5,11 +5,11 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  # if Vagrant.has_plugin?("vagrant-proxyconf")
-  #  config.proxy.http     = "http://proxy.who.int:3128"
-  #  config.proxy.https    = "http://proxy.who.int:3128"
-  #  config.proxy.no_proxy = "localhost,127.0.0.1"
-  # end
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+   config.proxy.http     = "http://proxy.who.int:3128"
+   config.proxy.https    = "http://proxy.who.int:3128"
+   config.proxy.no_proxy = "localhost,127.0.0.1"
+  end
   
   config.vm.define 'ansible-vm' do |cfg|
     cfg.vm.box = "bento/oracle-7.3"
