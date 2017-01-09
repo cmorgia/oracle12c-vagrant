@@ -12,4 +12,4 @@
 	url = https://github.com/cmorgia/ansible-oac.git
 [submodule "roles/ansible-oag"]
 	path = roles/ansible-oag
-url=https://github.com/cmorgia/ansible-oag.git
+	url=https://github.com/cmorgia/ansible-oag.git
