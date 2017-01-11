@@ -21,3 +21,5 @@
       oracle_db_password: 'password'
       oac_admin_server_listen_address: '127.0.0.1'
       oac_managed_server_listen_address: '127.0.0.1'
+      oac_fmw_to_harvest: '/u01/app/oracle/product/middleware'
+      oac_changed_password: 'password'
