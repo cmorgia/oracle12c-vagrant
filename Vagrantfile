@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
    config.proxy.no_proxy = "localhost,127.0.0.1"
   end
   
-  config.vm.define 'ansible-vm' do |cfg|
+  config.vm.define 'ansible-vm', primary: true do |cfg|
     cfg.vm.box = "bento/oracle-7.3"
     cfg.vm.box_check_update = false
     cfg.vbguest.auto_update = true
@@ -60,7 +60,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   end
 
-  config.vm.define 'aws-vm' do |cfg|
+  config.vm.define 'aws-vm', autostart: false do |cfg|
     cfg.vm.box_check_update = false
     cfg.vbguest.auto_update = true
     cfg.vm.synced_folder '.', '/vagrant', type: "rsync", rsync__exclude: ['database','files','.vagrant']
