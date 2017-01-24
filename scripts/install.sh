@@ -42,7 +42,10 @@ echo LC_ALL=en_US.utf-8 >> /etc/environment
 echo 'INSTALLER: Locale set'
 
 # install Oracle Database prereq packages
-yum install -y oracle-rdbms-server-12cR1-preinstall
+#yum install -y oracle-rdbms-server-12cR1-preinstall
+yum-config-manager --enable rhel-7-server-optional-rpms
+yum install -y compat-libstdc++-33
+yum localinstall -y /vagrant/files/oracle-rdbms-server-12cR1-preinstall-1.0-5.el7.x86_64.rpm
 
 echo 'INSTALLER: Oracle preinstall complete'
 
@@ -116,6 +119,7 @@ sudo cp /vagrant/scripts/oracle-rdbms.service /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable oracle-rdbms
 sudo systemctl start oracle-rdbms
+sudo ifup enp0s8
 echo "INSTALLER: Created and enabled oracle-rdbms systemd's service"
 
 echo 'INSTALLER: Installation complete'
