@@ -23,7 +23,7 @@
       oracle_db_sid: 'orcl'
       oracle_db_password: 'password'
       osb_admin_server_listen_address: '127.0.0.1'
-      osb_managed_server_listen_address: '127.0.0.1'
+      osb_managed_server_listen_address: ''
       osb_sbconfig_jar_file: 'sbconfig.jar'
       osb_sbconfig_customization_file: 'ALSBCustomizationFile.xml'
       osb_sbconfig_project: 'default'
