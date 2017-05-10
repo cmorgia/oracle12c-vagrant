@@ -35,6 +35,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     cfg.vm.network "forwarded_port", guest: 8090, host: 8090
     cfg.vm.network "forwarded_port", guest: 8112, host: 8112
     cfg.vm.network "forwarded_port", guest: 8043, host: 8043
+    cfg.vm.network "forwarded_port", guest: 9443, host: 9443
 
     # Provision everything on the first run
     cfg.vm.provision "shell", path: "scripts/install.sh"
